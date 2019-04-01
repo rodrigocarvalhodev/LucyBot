@@ -1,0 +1,9 @@
+{
+  "token": "token",
+  "mysql": {
+    "host": "localhost",
+    "user": "root",
+    "database": "test",
+    "password": ""
+  }
+}
