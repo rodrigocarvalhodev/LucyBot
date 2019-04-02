@@ -4,6 +4,8 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.rodrigocarvalho.lucy.Lucy;
+import net.rodrigocarvalho.lucy.dao.UserDao;
+import net.rodrigocarvalho.lucy.factory.UserData;
 import net.rodrigocarvalho.lucy.type.CommandType;
 
 import java.util.Arrays;
@@ -44,5 +46,16 @@ public class ObjectUtils {
 
     public static String formatArguments(String[] args, int starts) {
         return String.join(" ", Arrays.copyOfRange(args, starts, args.length));
+    }
+
+    public static UserData getUserOrCreate(User user) {
+        UserData data;
+        if (UserDao.has(user)) {
+            data = UserDao.get(user);
+        } else {
+            data = new UserData(user);
+            UserDao.add(data);
+        }
+        return data;
     }
 }

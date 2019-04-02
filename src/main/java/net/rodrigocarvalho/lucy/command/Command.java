@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.rodrigocarvalho.lucy.Lucy;
 import net.rodrigocarvalho.lucy.command.model.AbstractCommand;
 import net.rodrigocarvalho.lucy.command.model.CommandEvent;
 import net.rodrigocarvalho.lucy.command.model.CommandHandler;
@@ -19,11 +20,15 @@ public class Command extends ListenerAdapter {
     private final Set<AbstractCommand> COMMANDS = new HashSet<>();
 
     public Command() {
-        COMMANDS.addAll(ReflectionUtils.getAllCommandss());
+        var logger = Lucy.getLogger();
+        for (var command : ReflectionUtils.getAllCommandss()) {
+            COMMANDS.add(command);
+            logger.info("Registred command " + command.getClass().getName());
+        }
     }
 
     private AbstractCommand getCommand(String message) {
-        String lowerMessage = message.toLowerCase();
+        String lowerMessage = message.toLowerCase().substring(PREFIX.length(), message.length());
         return COMMANDS.stream().filter(x -> {
             var annotation = x.getClass().getAnnotation(CommandHandler.class);
             return annotation.name().equalsIgnoreCase(lowerMessage) || Arrays.asList(annotation.aliases()).contains(lowerMessage);

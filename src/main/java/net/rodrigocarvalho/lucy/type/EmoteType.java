@@ -1,5 +1,8 @@
 package net.rodrigocarvalho.lucy.type;
 
+import net.dv8tion.jda.api.entities.Emote;
+import net.dv8tion.jda.api.entities.MessageReaction;
+
 import java.util.stream.Stream;
 
 public enum EmoteType {
@@ -27,6 +30,10 @@ public enum EmoteType {
 
     public String getEmote() {
         return emote;
+    }
+
+    public boolean is(Emote emote) {
+        return emote.getAsMention().equals(getReaction());
     }
 
     public static EmoteType[] getEmotesByCommandType(CommandType type) {

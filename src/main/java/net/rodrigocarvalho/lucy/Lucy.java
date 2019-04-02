@@ -2,6 +2,8 @@ package net.rodrigocarvalho.lucy;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.rodrigocarvalho.lucy.command.Command;
+import net.rodrigocarvalho.lucy.event.EventAdapter;
 import net.rodrigocarvalho.lucy.mysql.MySQL;
 import net.rodrigocarvalho.lucy.task.PresenceTask;
 import net.rodrigocarvalho.lucy.utils.FileUtils;
@@ -27,6 +29,7 @@ public class Lucy {
     }
 
     private void init() {
+        System.out.println("Iniciando...");
         FileUtils.create(CONFIG_NAME);
         var parser = new JSONParser();
         try (var reader = new FileReader(CONFIG_NAME)){
@@ -46,6 +49,8 @@ public class Lucy {
         try {
             jda = new JDABuilder(token).build();
             jda.awaitReady();
+            jda.addEventListener(new Command());
+            jda.addEventListener(new EventAdapter());
         } catch (Exception e) {
             LOGGER.error("Não foi possível iniciar o bot: " + e.getMessage());
         }
@@ -59,8 +64,9 @@ public class Lucy {
         this.mySQL = new MySQL(host, database, user, password);
         if (this.mySQL.init()) {
             this.mySQL.createDatabases();
-            LOGGER.info("Conexão com MySQL estabelecida com sucesso.");
+            LOGGER.info("MySQL connection estabilished successfully.");
         } else {
+            LOGGER.error("MySQL connection not estabilished, disabling...");
             jda.shutdown();
         }
     }

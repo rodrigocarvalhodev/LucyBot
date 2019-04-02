@@ -3,7 +3,9 @@ package net.rodrigocarvalho.lucy.event;
 import net.dv8tion.jda.api.events.Event;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.rodrigocarvalho.lucy.Lucy;
 import net.rodrigocarvalho.lucy.event.model.AbstractEvent;
+import net.rodrigocarvalho.lucy.utils.ReflectionUtils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -15,7 +17,11 @@ public class EventAdapter extends ListenerAdapter {
     private final Set<AbstractEvent> LISTENERS = new HashSet<>();
 
     public EventAdapter() {
-
+        var logger = Lucy.getLogger();
+        for (var event : ReflectionUtils.getAllEvents()) {
+            LISTENERS.add(event);
+            logger.info("Registred event \"" + event.getClass().getName() + "\" of type \"" + event.getType().getTypeName() + "\"");
+        }
     }
 
     private List<AbstractEvent> getEvents(GenericEvent event) {
