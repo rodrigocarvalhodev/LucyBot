@@ -1,5 +1,6 @@
 package net.rodrigocarvalho.lucy.event;
 
+import lombok.var;
 import net.dv8tion.jda.api.events.Event;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -17,10 +18,9 @@ public class EventAdapter extends ListenerAdapter {
     private final Set<AbstractEvent> LISTENERS = new HashSet<>();
 
     public EventAdapter() {
-        var logger = Lucy.getLogger();
         for (var event : ReflectionUtils.getAllEvents()) {
             LISTENERS.add(event);
-            logger.info("Registred event \"" + event.getClass().getName() + "\" of type \"" + event.getType().getTypeName() + "\"");
+            Lucy.print("Registred event \"" + event.getClass().getName() + "\" of type \"" + event.getType().getTypeName() + "\"");
         }
     }
 

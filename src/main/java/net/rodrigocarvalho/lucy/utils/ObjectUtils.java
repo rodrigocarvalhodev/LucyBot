@@ -1,5 +1,6 @@
 package net.rodrigocarvalho.lucy.utils;
 
+import lombok.var;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -19,7 +20,7 @@ public class ObjectUtils {
         if (type.validArguments(args.length)) return true;
 
         channel.sendMessage(type.getHelp(user)).queue();
-        return true;
+        return false;
     }
 
     public static User matchUser(Message message, String[] args, int size) {
@@ -46,6 +47,14 @@ public class ObjectUtils {
 
     public static String formatArguments(String[] args, int starts) {
         return String.join(" ", Arrays.copyOfRange(args, starts, args.length));
+    }
+
+    public static boolean validateMessage(String message, User user, MessageChannel channel) {
+        if (message.length() >= 512) {
+            channel.sendMessage(user.getAsMention() + ", Opa! Sua mensagem está muito grande.").queue();
+            return false;
+        }
+        return true;
     }
 
     public static UserData getUserOrCreate(User user) {

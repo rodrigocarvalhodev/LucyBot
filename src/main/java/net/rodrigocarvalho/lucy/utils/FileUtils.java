@@ -1,5 +1,7 @@
 package net.rodrigocarvalho.lucy.utils;
 
+import lombok.var;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 

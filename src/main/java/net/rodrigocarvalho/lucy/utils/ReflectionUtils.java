@@ -1,5 +1,6 @@
 package net.rodrigocarvalho.lucy.utils;
 
+import lombok.var;
 import net.rodrigocarvalho.lucy.command.model.AbstractCommand;
 import net.rodrigocarvalho.lucy.command.model.CommandHandler;
 import net.rodrigocarvalho.lucy.event.model.AbstractEvent;

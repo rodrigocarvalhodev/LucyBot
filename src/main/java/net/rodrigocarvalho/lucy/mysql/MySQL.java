@@ -1,36 +1,35 @@
 package net.rodrigocarvalho.lucy.mysql;
 
+import lombok.var;
 import net.rodrigocarvalho.lucy.Lucy;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class MySQL {
 
-    private String host, database, user, password;
+    private String url, user, password;
     private Connection connection;
 
-    public MySQL(String host, String database, String user, String password) {
-        this.host = host;
-        this.database = database;
+    public MySQL(String url, String user, String password) {
+        this.url = url;
         this.user = user;
         this.password = password;
     }
 
     public boolean init() {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://" + host + ":3306/" + database + "?autoReconnect=true", user, password);
+            connection = DriverManager.getConnection(url, user, password);
             return true;
         } catch (Exception e) {
-            Lucy.getLogger().error("Não foi possível estabelecer uma conexão com o mysql.");
+            e.printStackTrace();
             return false;
         }
     }
 
     public void createDatabases() {
-        try (Statement statement = connection.createStatement()) {
+        try (var statement = connection.createStatement()) {
         } catch (SQLException e) {
             e.printStackTrace();
         }

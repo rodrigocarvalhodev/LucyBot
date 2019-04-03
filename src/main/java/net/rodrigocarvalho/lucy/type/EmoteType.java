@@ -7,8 +7,8 @@ import java.util.stream.Stream;
 
 public enum EmoteType {
 
-    ENVELOPE(CommandType.DIRECT_MESSAGE_ANONYMOUS, ":envelope_with_arrow:", "\\1f4e9"),
-    INFORMATION(CommandType.DIRECT_MESSAGE_ANONYMOUS, ":information_desk_person:", "\\1f481");
+    ENVELOPE(CommandType.DIRECT_MESSAGE_ANONYMOUS, ":envelope_with_arrow:", "\uD83D\uDCE9"),
+    INFORMATION(CommandType.DIRECT_MESSAGE_ANONYMOUS, ":information_desk_person:", "\uD83D\uDC81");
 
     private CommandType type;
     private String reaction;
@@ -32,8 +32,8 @@ public enum EmoteType {
         return emote;
     }
 
-    public boolean is(Emote emote) {
-        return emote.getAsMention().equals(getReaction());
+    public boolean is(MessageReaction.ReactionEmote emote) {
+        return emote.getName().equals(this.emote);
     }
 
     public static EmoteType[] getEmotesByCommandType(CommandType type) {

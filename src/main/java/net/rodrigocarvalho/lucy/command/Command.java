@@ -1,5 +1,6 @@
 package net.rodrigocarvalho.lucy.command;
 
+import lombok.var;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
@@ -20,19 +21,25 @@ public class Command extends ListenerAdapter {
     private final Set<AbstractCommand> COMMANDS = new HashSet<>();
 
     public Command() {
-        var logger = Lucy.getLogger();
         for (var command : ReflectionUtils.getAllCommandss()) {
             COMMANDS.add(command);
-            logger.info("Registred command " + command.getClass().getName());
+            Lucy.print("Registred command " + command.getClass().getName());
         }
     }
 
     private AbstractCommand getCommand(String message) {
-        String lowerMessage = message.toLowerCase().substring(PREFIX.length(), message.length());
+        String command = message.substring(PREFIX.length());
         return COMMANDS.stream().filter(x -> {
             var annotation = x.getClass().getAnnotation(CommandHandler.class);
-            return annotation.name().equalsIgnoreCase(lowerMessage) || Arrays.asList(annotation.aliases()).contains(lowerMessage);
+            return annotation.name().equalsIgnoreCase(command) || contains(annotation.aliases(), command);
         }).findFirst().orElse(null);
+    }
+
+    private boolean contains(String[] array, String content) {
+        for (String s : array) {
+            if (s.equalsIgnoreCase(content)) return true;
+        }
+        return false;
     }
 
     @Override
@@ -45,20 +52,18 @@ public class Command extends ListenerAdapter {
         var content = message.getContentRaw();
 
         if (content.startsWith(PREFIX)) {
-            var command = getCommand(content);
+            String[] split = content.split( " ");
+            var command = getCommand(content.contains(" ") ? split[0] : content);
             if (command != null) {
                 var annotation = command.getClass().getAnnotation(CommandHandler.class);
                 var permission = annotation.permission();
-                if (permission != Permission.UNKNOWN && member.hasPermission(permission)) {
-                    if (!member.hasPermission(permission)) {
-                        channel.sendMessage(user.getAsMention() + ", você precisa da permissão " + permission.getName() + " para executar esse comando").queue();
-                        return;
-                    }
-
-                    String[] split = content.split(" ");
-                    CommandEvent commandEvent = new CommandEvent(user, member, guild, channel, message, content.contains(" ") ? Arrays.copyOfRange(split, 1, split.length) : new String[]{});
-                    command.execute(commandEvent);
+                if (permission != Permission.UNKNOWN && !member.hasPermission(permission)) {
+                    channel.sendMessage(user.getAsMention() + ", você precisa da permissão " + permission.getName() + " para executar esse comando").queue();
+                    return;
                 }
+
+                CommandEvent commandEvent = new CommandEvent(user, member, guild, channel, message, content.contains(" ") ? Arrays.copyOfRange(split, 1, split.length) : new String[0]);
+                command.execute(commandEvent);
             }
         }
     }
@@ -71,10 +76,10 @@ public class Command extends ListenerAdapter {
         var content = message.getContentRaw();
 
         if (content.startsWith(PREFIX)) {
-            var command = getCommand(content);
+            String[] split = content.split( " ");
+            var command = getCommand(content.contains(" ") ? split[0] : content);
             if (command != null) {
-                String[] split = content.split(" ");
-                CommandEvent commandEvent = new CommandEvent(user, channel, message, content.contains(" ") ? Arrays.copyOfRange(split, 1, split.length) : new String[]{});
+                CommandEvent commandEvent = new CommandEvent(user, channel, message, content.contains(" ") ? Arrays.copyOfRange(split, 1, split.length) : new String[0]);
                 command.execute(commandEvent);
             }
         }

@@ -27,7 +27,7 @@ public class UserDao {
     }
 
     public static void clearUser(UserData user) {
-        if (user.getDelays().isEmpty() && user.getReactions().isEmpty()) {
+        if (user.getDelays().isEmpty() && user.getReactions().isEmpty() && user.getWaiting().isEmpty()) {
             remove(user.getUser());
         }
     }

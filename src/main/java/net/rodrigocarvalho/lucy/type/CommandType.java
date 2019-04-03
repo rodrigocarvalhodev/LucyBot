@@ -1,5 +1,6 @@
 package net.rodrigocarvalho.lucy.type;
 
+import lombok.var;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -22,10 +23,10 @@ public enum CommandType {
                                 .appendDescription("**Mensagem anônima: .dmanonima**\n")
                                 .appendDescription("Envie uma mensagem anônima a um usuário!\n")
                                 .addField("Exemplos",
-                                        ".dmanonima\n."
+                                        ".dmanonima\n"
                                         +     ".dmanonima " + selfUser.getAsMention() + "\n"
                                         +     ".dmanonima " + selfUser.getId(), false)
-                                .addField("Comandos possíveis",
+                                .addField("Alternativas",
                                         ".dmaanonima\n.dma", false)
                                 .setAuthor("Tutorial de comando - " + user.getName(), user.getAvatarUrl())
                             .build()

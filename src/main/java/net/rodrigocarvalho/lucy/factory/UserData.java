@@ -8,6 +8,7 @@ import net.rodrigocarvalho.lucy.type.ReactionType;
 import net.rodrigocarvalho.lucy.type.WaitingType;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.WeakHashMap;
 
 public class UserData {
@@ -83,5 +84,18 @@ public class UserData {
 
     public Map<WaitingType, Waiting> getWaiting() {
         return WAITING;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserData userData = (UserData) o;
+        return user.equals(userData.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user);
     }
 }

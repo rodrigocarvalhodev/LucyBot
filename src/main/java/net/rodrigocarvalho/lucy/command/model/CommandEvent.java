@@ -1,5 +1,6 @@
 package net.rodrigocarvalho.lucy.command.model;
 
+import lombok.var;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.*;
 

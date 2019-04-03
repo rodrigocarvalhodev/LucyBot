@@ -5,17 +5,15 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.rodrigocarvalho.lucy.type.EmoteType;
 
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 
 public class BotUtils {
 
-    public static Message sendPrivateMessage(User user, MessageChannel channel, Message message) {
-        AtomicReference<Message> result = new AtomicReference<>(null);
+    public static void sendPrivateMessage(User user, MessageChannel channel, Message message, Consumer<Message> callback) {
         user.openPrivateChannel()
-                .queue((s) -> {
-                    result.set(s.sendMessage(message).complete());
-                }, (e) -> channel.sendMessage("Não consegui enviar mensagem no privado :(").queue());
-        return result.get();
+                .queue(s -> s.sendMessage(message)
+                        .queue(callback,
+                                e -> channel.sendMessage("Não consegui enviar mensagem no privado :(").queue()));
     }
 
     public static void addReaction(Message message, EmoteType... types) {

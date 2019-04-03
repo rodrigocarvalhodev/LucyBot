@@ -1,5 +1,6 @@
 package net.rodrigocarvalho.lucy;
 
+import lombok.var;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.rodrigocarvalho.lucy.command.Command;
@@ -29,7 +30,7 @@ public class Lucy {
     }
 
     private void init() {
-        System.out.println("Iniciando...");
+        print("Starting bot...");
         FileUtils.create(CONFIG_NAME);
         var parser = new JSONParser();
         try (var reader = new FileReader(CONFIG_NAME)){
@@ -52,22 +53,24 @@ public class Lucy {
             jda.addEventListener(new Command());
             jda.addEventListener(new EventAdapter());
         } catch (Exception e) {
-            LOGGER.error("Não foi possível iniciar o bot: " + e.getMessage());
+            print("Não foi possível iniciar o bot: " + e.getMessage());
         }
     }
 
     private void startMySQL(JSONObject json) {
-        var host = (String) json.get("host");
-        var database = (String) json.get("database");
         var user = (String) json.get("user");
         var password = (String) json.get("password");
-        this.mySQL = new MySQL(host, database, user, password);
+        var url = (String) json.get("url");
+        print("Trying MySQL connection with url=" + url + ",user=" + user + ",password=" + password);
+        this.mySQL = new MySQL(url, user, password);
         if (this.mySQL.init()) {
             this.mySQL.createDatabases();
-            LOGGER.info("MySQL connection estabilished successfully.");
+            print("MySQL connection estabilished successfully.");
         } else {
-            LOGGER.error("MySQL connection not estabilished, disabling...");
-            jda.shutdown();
+            print("MySQL connection not estabilished, disabling...");
+            if (jda != null) {
+                jda.shutdownNow();
+            }
         }
     }
 
@@ -82,5 +85,9 @@ public class Lucy {
 
     public static Logger getLogger() {
         return LOGGER;
+    }
+
+    public static void print(String message) {
+        System.out.println("[Lucy] - " + message);
     }
 }

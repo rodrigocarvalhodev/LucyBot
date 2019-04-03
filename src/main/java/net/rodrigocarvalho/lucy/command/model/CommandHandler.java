@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.Permission;
 
 import java.lang.annotation.*;
 
+@Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface CommandHandler {
 

@@ -11,7 +11,7 @@ public class PresenceTask extends TimerTask {
 
     private int i;
     private static final List<String> PRESENCE_LIST = Arrays.asList(
-            "Olá! Eu sou a Main.",
+            "Olá! Eu sou a Lucy.",
             "Você pode ver como fui feita em: https://github.com/RodrigoCarvalho31/LucyBot"
     );
 
