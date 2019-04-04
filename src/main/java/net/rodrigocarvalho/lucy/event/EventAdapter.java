@@ -20,7 +20,7 @@ public class EventAdapter extends ListenerAdapter {
     public EventAdapter() {
         for (var event : ReflectionUtils.getAllEvents()) {
             LISTENERS.add(event);
-            Lucy.print("Registred event \"" + event.getClass().getName() + "\" of type \"" + event.getType().getTypeName() + "\"");
+            Lucy.print("Registred event \"" + event.getClass().getSimpleName() + "\" of type \"" + event.getType().getTypeName() + "\"");
         }
     }
 

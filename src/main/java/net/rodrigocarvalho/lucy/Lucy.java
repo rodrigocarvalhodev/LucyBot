@@ -48,7 +48,7 @@ public class Lucy {
 
     private void startBot(String token) {
         try {
-            jda = new JDABuilder(token).build();
+            jda = new JDABuilder(token).setAutoReconnect(true).build();
             jda.awaitReady();
             jda.addEventListener(new Command());
             jda.addEventListener(new EventAdapter());

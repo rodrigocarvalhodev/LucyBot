@@ -1,4 +1,4 @@
-package net.rodrigocarvalho.lucy.model.reactions;
+package net.rodrigocarvalho.lucy.model.waiting;
 
 import net.dv8tion.jda.api.entities.User;
 import net.rodrigocarvalho.lucy.model.interfaces.Waiting;

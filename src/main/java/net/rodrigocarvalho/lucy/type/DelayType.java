@@ -2,7 +2,7 @@ package net.rodrigocarvalho.lucy.type;
 
 public enum DelayType {
 
-    ANONYMOUS_MESSAGE(20000L);
+    GLOBAL(5000L), ANONYMOUS_MESSAGE(20000L);
 
     private long time;
 

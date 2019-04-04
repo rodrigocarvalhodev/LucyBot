@@ -4,6 +4,9 @@ import lombok.var;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.*;
 
+import javax.security.auth.callback.Callback;
+import java.util.function.Consumer;
+
 public class CommandEvent {
 
     private User user;
@@ -63,14 +66,20 @@ public class CommandEvent {
     }
 
     public void sendMessage(String message) {
-        channel.sendMessage(user.getAsMention() + ", " + message).queue();
+        getUsedChannel().sendMessage(user.getAsMention() + ", " + message).queue();
+    }
+
+    public void sendMessage(String message, Consumer<Message> callback) {
+        getUsedChannel().sendMessage(user.getAsMention() + ", " + message).queue(callback);
+    }
+
+    public void sendMessage(Message message) {
+        getUsedChannel().sendMessage(message).queue();
     }
 
     public void sendMessage(MessageEmbed embed) {
         var message = new MessageBuilder(user.getAsMention()).setEmbed(embed).build();
-        if (channel != null)
-            channel.sendMessage(message).queue();
-        else privateChannel.sendMessage(message).queue();
+        getUsedChannel().sendMessage(message).queue();
     }
 
     public boolean isFromPrivateChannel() {

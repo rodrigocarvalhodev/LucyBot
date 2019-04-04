@@ -9,7 +9,12 @@ import net.rodrigocarvalho.lucy.dao.UserDao;
 import net.rodrigocarvalho.lucy.factory.UserData;
 import net.rodrigocarvalho.lucy.type.CommandType;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.StringJoiner;
 import java.util.regex.Pattern;
 
 public class ObjectUtils {
@@ -35,9 +40,9 @@ public class ObjectUtils {
         return user;
     }
 
-    public static boolean validateUser(MessageChannel channel, User user, User otherUser) {
-        if (otherUser != null && !user.equals(otherUser) && !otherUser.isBot() && !otherUser.getId().equals(Lucy.getJda().getSelfUser().getId())) return true;
-        channel.sendMessage(otherUser.getAsMention() + ", certifique-se que você informou um usuário válido.").queue();
+    public static boolean validateUser(MessageChannel channel, User user, User otherUser, boolean checkBot) {
+        if (otherUser != null && !user.getId().equals(otherUser.getId()) && !(checkBot && otherUser.isBot()) && !otherUser.getId().equals(Lucy.getJda().getSelfUser().getId())) return true;
+        channel.sendMessage(user.getAsMention() + ", certifique-se que você informou um usuário válido.").queue();
         return false;
     }
 
@@ -46,6 +51,7 @@ public class ObjectUtils {
     }
 
     public static String formatArguments(String[] args, int starts) {
+        if (args.length < starts) return null;
         return String.join(" ", Arrays.copyOfRange(args, starts, args.length));
     }
 
@@ -66,5 +72,20 @@ public class ObjectUtils {
             UserDao.add(data);
         }
         return data;
+    }
+
+    public static String formatInputStream(InputStream is) {
+        if (is == null) return "";
+        var bufferedReader = new BufferedReader(new InputStreamReader(is));
+        var joiner = new StringJoiner("\n");
+        String line;
+        try {
+            while ((line = bufferedReader.readLine()) != null) {
+                joiner.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return joiner.toString();
     }
 }

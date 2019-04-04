@@ -4,7 +4,7 @@ import lombok.var;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.rodrigocarvalho.lucy.dao.UserDao;
 import net.rodrigocarvalho.lucy.event.model.AbstractEvent;
-import net.rodrigocarvalho.lucy.model.reactions.AnonymousWaiting;
+import net.rodrigocarvalho.lucy.model.waiting.AnonymousWaiting;
 import net.rodrigocarvalho.lucy.type.WaitingType;
 import net.rodrigocarvalho.lucy.utils.SystemUtils;
 

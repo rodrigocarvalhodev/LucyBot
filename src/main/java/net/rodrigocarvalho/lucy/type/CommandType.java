@@ -18,17 +18,14 @@ public enum CommandType {
             return new MessageBuilder(user.getAsMention())
                     .setEmbed(
                             new EmbedBuilder()
-                                .setTitle("Uso do comando.")
-                                .setColor(Color.GRAY)
-                                .appendDescription("**Mensagem anônima: .dmanonima**\n")
-                                .appendDescription("Envie uma mensagem anônima a um usuário!\n")
-                                .addField("Exemplos",
-                                        ".dmanonima\n"
-                                        +     ".dmanonima " + selfUser.getAsMention() + "\n"
-                                        +     ".dmanonima " + selfUser.getId(), false)
-                                .addField("Alternativas",
-                                        ".dmaanonima\n.dma", false)
-                                .setAuthor("Tutorial de comando - " + user.getName(), user.getAvatarUrl())
+                                .setTitle(":bust_in_silhouette: | DM anônima")
+                                .setColor(Color.lightGray)
+                                .setDescription(":interrobang: Como usar\n\n" +
+                                        ".dma " + selfUser.getAsMention() + (" Uma frase aleatória\n" +
+                                        ".dma " + selfUser.getId() + " Olá, mundo!"))
+                                .addField(":wrench: | Alternativas",
+                                        ".dmaanonima\n.dma", true)
+                                .addField(":eyes: | Objetivo", "Envie mensagens diretas anonimamente para usuários", true)
                             .build()
                     ).build();
         }
@@ -36,6 +33,122 @@ public enum CommandType {
         @Override
         public boolean validArguments(int length) {
             return length > 1;
+        }
+    },
+    AVATAR {
+        @Override
+        public Message getHelp(User user) {
+            var selfUser = Lucy.getJda().getSelfUser();
+            return new MessageBuilder(user.getAsMention())
+                    .setEmbed(
+                            new EmbedBuilder()
+                                    .setTitle(":bust_in_silhouette: | Avatar")
+                                    .setColor(Color.lightGray)
+                                    .setDescription(":interrobang: Como usar\n\n" +
+                                            ".avatar " + selfUser.getAsMention() + "\n" +
+                                            ".avatar " + selfUser.getId())
+                                    .addField(":eyes: | Objetivo", "Ver a imagem de perfil de outros usuários", false)
+                                    .build()
+                    ).build();
+        }
+
+        @Override
+        public boolean validArguments(int length) {
+            return true;
+        }
+    },
+    EVAL {
+        @Override
+        public Message getHelp(User user) {
+            return new MessageBuilder(user.getAsMention() + ", Agora já pode digitar o código né meu  parsero.").build();
+        }
+
+        @Override
+        public boolean validArguments(int length) {
+            return length > 0;
+        }
+    },
+    BASH {
+        @Override
+        public Message getHelp(User user) {
+            return new MessageBuilder(user.getAsMention() + ", Agora já pode digitar o comando né meu parsero.").build();
+        }
+
+        @Override
+        public boolean validArguments(int length) {
+            return length > 0;
+        }
+    },
+    BAN {
+        @Override
+        public Message getHelp(User user) {
+            var selfUser = Lucy.getJda().getSelfUser();
+            return new MessageBuilder(user.getAsMention())
+                    .setEmbed(
+                            new EmbedBuilder()
+                                .setTitle(":bust_in_silhouette: | Banimento")
+                                .setColor(Color.lightGray)
+                                .setDescription(":interrobang: Como usar\n\n" +
+                                        ".ban " + selfUser.getAsMention() + "\n" +
+                                        ".ban " + selfUser.getAsMention() + " Opressor!")
+                                .addField(":wrench: | Alternativas",
+                                            ".ban\n.banir", true)
+                                .addField(":eyes: | Objetivo", "Banir um usuário faxista.", true)
+                            .build()
+                    ).build();
+        }
+
+        @Override
+        public boolean validArguments(int length) {
+            return length > 0;
+        }
+    },
+    KICK {
+        @Override
+        public Message getHelp(User user) {
+            var selfUser = Lucy.getJda().getSelfUser();
+            return new MessageBuilder(user.getAsMention())
+                    .setEmbed(
+                            new EmbedBuilder()
+                                    .setTitle(":bust_in_silhouette: | Expulsão")
+                                    .setColor(Color.lightGray)
+                                    .setDescription(":interrobang: Como usar\n\n" +
+                                            ".kick " + selfUser.getAsMention() + "\n" +
+                                            ".kick " + selfUser.getAsMention() + " Opressor!")
+                                    .addField(":wrench: | Alternativas",
+                                            ".kick\n.expulsar", true)
+                                    .addField(":eyes: | Objetivo", "Expulsar um usuário faxista.", true)
+                                    .build()
+                    ).build();
+        }
+
+        @Override
+        public boolean validArguments(int length) {
+            return length > 0;
+        }
+    },
+    UNBAN {
+        @Override
+        public Message getHelp(User user) {
+            var selfUser = Lucy.getJda().getSelfUser();
+            return new MessageBuilder(user.getAsMention())
+                    .setEmbed(
+                            new EmbedBuilder()
+                                    .setTitle(":bust_in_silhouette: | Desbanir")
+                                    .setColor(Color.lightGray)
+                                    .setDescription(":interrobang: Como usar\n\n" +
+                                            ".kick " + selfUser.getAsMention() + "\n" +
+                                            ".kick " + selfUser.getAsMention() + " Opressor!")
+                                    .addField(":wrench: | Alternativas",
+                                            ".kick\n.expulsar", true)
+                                    .addField(":eyes: | Objetivo", "Perdoar um usuário faxista.", true)
+                                    .build()
+                    ).build();
+        }
+
+        @Override
+        public boolean validArguments(int length) {
+            return length > 0;
         }
     };
 

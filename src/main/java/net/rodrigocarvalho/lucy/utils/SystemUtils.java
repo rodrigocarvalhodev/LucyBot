@@ -1,21 +1,26 @@
 package net.rodrigocarvalho.lucy.utils;
 
+import bsh.EvalError;
+import bsh.Interpreter;
+import bsh.NameSpace;
+import bsh.UtilEvalError;
 import lombok.var;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.ChannelType;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.rodrigocarvalho.lucy.factory.Delay;
 import net.rodrigocarvalho.lucy.factory.UserData;
 import net.rodrigocarvalho.lucy.model.reactions.AnonymousReaction;
 import net.rodrigocarvalho.lucy.type.DelayType;
 import net.rodrigocarvalho.lucy.type.EmoteType;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class SystemUtils {
+
+    private static final Runtime RUNTIME = Runtime.getRuntime();
 
     public static void sendDirectMessageAnonymous(User user, User targetUser, String anonymousMessage, MessageChannel channel, Message userMessage, boolean delay) {
         BotUtils.sendPrivateMessage(targetUser, channel,
@@ -45,5 +50,31 @@ public class SystemUtils {
                     });
                 }
         );
+    }
+
+    public static List<String> eval(String code, User user, Message message, MessageChannel channel, Guild guild, String[] args) throws UtilEvalError, EvalError {
+        var interpreter = new Interpreter();
+        interpreter.setNameSpace(NameSpace.JAVACODE);
+        var nameSpace = interpreter.getNameSpace();
+        nameSpace.importPackage("net.rodrigocarvalho.lucy");
+        nameSpace.importPackage("java.util");
+        nameSpace.importPackage("java.net");
+        nameSpace.importPackage("net.dv8tion.jda");
+        nameSpace.setVariable("user", user, false);
+        nameSpace.setVariable("message", message, false);
+        nameSpace.setVariable("channel", channel, false);
+        nameSpace.setVariable("guild", guild, false);
+        nameSpace.setVariable("args", args, false);
+        nameSpace.setVariable("output", interpreter, false);
+        Object object = interpreter.eval(code);
+        if (object == null && interpreter.get("retorno") != null) object = interpreter.get("retorno");
+        String result = object != null ? object.toString() : "null";
+        return BotUtils.getMessagesStripped(result);
+    }
+
+    public static List<String> bash(String command) throws IOException {
+        var process = RUNTIME.exec(command);
+        var message = ObjectUtils.formatInputStream(process.getInputStream());
+        return BotUtils.getMessagesStripped(message);
     }
 }

@@ -8,6 +8,6 @@ public class Ready extends AbstractEvent<ReadyEvent> {
 
     @Override
     public void call(ReadyEvent readyEvent) {
-        Lucy.getLogger().info("Iniciei!");
+        Lucy.print("Iniciei!");
     }
 }

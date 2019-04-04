@@ -11,5 +11,6 @@ public @interface CommandHandler {
     String name();
     String[] aliases() default {};
     Permission permission() default Permission.UNKNOWN;
+    boolean rootCommand() default false;
 
 }

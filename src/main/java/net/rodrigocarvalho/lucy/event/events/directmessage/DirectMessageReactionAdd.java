@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.events.message.priv.react.PrivateMessageReactionAddEv
 import net.rodrigocarvalho.lucy.dao.UserDao;
 import net.rodrigocarvalho.lucy.event.model.AbstractEvent;
 import net.rodrigocarvalho.lucy.model.reactions.AnonymousReaction;
-import net.rodrigocarvalho.lucy.model.reactions.AnonymousWaiting;
+import net.rodrigocarvalho.lucy.model.waiting.AnonymousWaiting;
 import net.rodrigocarvalho.lucy.type.EmoteType;
 import net.rodrigocarvalho.lucy.type.ReactionType;
 
