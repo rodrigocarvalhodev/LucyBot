@@ -3,6 +3,7 @@ package net.rodrigocarvalho.lucy.utils;
 import lombok.var;
 
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FileUtils {
@@ -25,5 +26,10 @@ public class FileUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean exists(String path) {
+        Path localPath = Paths.get(path);
+        return Files.exists(localPath);
     }
 }

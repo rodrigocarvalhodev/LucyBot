@@ -11,6 +11,6 @@ public class InviteCommand extends AbstractCommand {
 
     @Override
     public void execute(CommandEvent event) {
-        event.sendMessage("Aqui está meu convite! " + Lucy.getJda().getInviteUrl(Permission.ADMINISTRATOR));
+        event.sendMessage("Aqui está meu convite! " + jda.getInviteUrl(Permission.ADMINISTRATOR));
     }
 }

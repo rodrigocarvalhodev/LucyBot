@@ -29,7 +29,20 @@ public class Command extends ListenerAdapter {
         }
     }
 
-    private AbstractCommand getCommand(String message) {
+    public void addCommand(AbstractCommand command) {
+        COMMANDS.add(command);
+        Lucy.print("Registred command " + command.getClass().getSimpleName());
+    }
+
+    public void removeCommand(String name) {
+        COMMANDS.removeIf(x -> {
+            var annotation = x.getClass().getAnnotation(CommandHandler.class);
+            return annotation.name().equalsIgnoreCase(name) || contains(annotation.aliases(), name);
+        });
+        Lucy.print("Unregistred command " + name);
+    }
+
+    public AbstractCommand getCommand(String message) {
         String command = message.substring(PREFIX.length());
         return COMMANDS.stream().filter(x -> {
             var annotation = x.getClass().getAnnotation(CommandHandler.class);
@@ -65,7 +78,7 @@ public class Command extends ListenerAdapter {
                 }
                 var annotation = command.getClass().getAnnotation(CommandHandler.class);
                 if (annotation.rootCommand() && !BotUtils.isRootUser(user)) {
-                    channel.sendMessage("Somente pessoas especiais podem usar esse comando :tux:.").queue();
+                    channel.sendMessage("Somente pessoas especiais podem usar esse comando <:tux:563133833155969034>.").queue();
                     return;
                 }
                 var permission = annotation.permission();
@@ -95,7 +108,7 @@ public class Command extends ListenerAdapter {
                 Lucy.print("[PM] - " + user.getName() + ": " + content);
                 var annotation = command.getClass().getAnnotation(CommandHandler.class);
                 if (annotation.rootCommand() && !BotUtils.isRootUser(user)) {
-                    channel.sendMessage("Somente pessoas especiais podem usar esse comando :tux:.").queue();
+                    channel.sendMessage("Somente pessoas especiais podem usar esse comando <:tux:563133833155969034>.").queue();
                     return;
                 }
                 if (annotation.permission() != Permission.UNKNOWN) {

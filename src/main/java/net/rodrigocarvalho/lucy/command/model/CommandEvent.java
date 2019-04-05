@@ -4,7 +4,6 @@ import lombok.var;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.*;
 
-import javax.security.auth.callback.Callback;
 import java.util.function.Consumer;
 
 public class CommandEvent {

@@ -2,11 +2,19 @@ package net.rodrigocarvalho.lucy.utils;
 
 import lombok.var;
 import net.dv8tion.jda.api.entities.*;
+import net.openhft.compiler.CompilerUtils;
+import net.rodrigocarvalho.lucy.Lucy;
+import net.rodrigocarvalho.lucy.command.Command;
+import net.rodrigocarvalho.lucy.command.model.AbstractCommand;
 import net.rodrigocarvalho.lucy.dao.UserDao;
 import net.rodrigocarvalho.lucy.type.DelayType;
 import net.rodrigocarvalho.lucy.type.EmoteType;
 import net.rodrigocarvalho.lucy.type.PunishmentType;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +23,15 @@ import java.util.function.Consumer;
 public class BotUtils {
 
     private static final List<String> ROOT_USERS = Arrays.asList("352901571543171074", "136271663640739840");
+    private static long startTime;
+
+    public static void setStartTime(long startTime) {
+        BotUtils.startTime = startTime;
+    }
+
+    public static long getStartTime() {
+        return startTime;
+    }
 
     public static boolean isRootUser(User user) {
         return ROOT_USERS.contains(user.getId());
@@ -72,6 +89,35 @@ public class BotUtils {
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    public static String getTime() {
+        var missing = System.currentTimeMillis() - BotUtils.getStartTime();
+        return TimeUtils.formatTime(missing);
+    }
+
+    public static AbstractCommand getClass(String path, String className) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
+        AbstractCommand command;
+        Path localPath = Paths.get(path);
+        String code = ObjectUtils.formatInputStream(Files.newInputStream(localPath));
+        Class compClass = CompilerUtils.CACHED_COMPILER.loadFromJava(className, code);
+        command = (AbstractCommand) compClass.newInstance();
+        return command;
+    }
+
+    public static void registerLocalCommands() {
+        Command command = Lucy.getCommand();
+        try {
+            for (Path path : Files.newDirectoryStream(Paths.get("commands"))) {
+                String fileName = path.getFileName().toString();
+                String className = fileName.substring(0, fileName.length()-5);
+                var abstractCommand = getClass("commands/" + fileName, className);
+                command.addCommand(abstractCommand);
+                Lucy.print("Registred local command \"" + className + "\"");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

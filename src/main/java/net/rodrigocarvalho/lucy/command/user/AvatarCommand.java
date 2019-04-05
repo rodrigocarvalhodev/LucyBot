@@ -16,13 +16,9 @@ public class AvatarCommand extends AbstractCommand {
         var user = event.getUser();
         var args = event.getArgs();
         var message = event.getMessage();
-
-        User target;
-        if (args.length == 0) target = user;
-        else target = ObjectUtils.matchUser(message, args, 0);
-
+        var target = args.length > 0 ? ObjectUtils.matchUser(message, args, 0) : user;
         if (target == null) {
-            event.sendMessage("Não consegui encontrar esse usuário :frowning2:");
+            event.sendMessage("Não consegui encontrar esse usuário <:pinguim:563134096713318403>");
             return;
         }
         event.sendMessage(

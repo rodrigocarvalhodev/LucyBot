@@ -9,7 +9,11 @@ public enum EmoteType {
 
     ENVELOPE(CommandType.DIRECT_MESSAGE_ANONYMOUS, ":envelope_with_arrow:", "\uD83D\uDCE9", false),
     INFORMATION(CommandType.DIRECT_MESSAGE_ANONYMOUS, ":information_desk_person:", "\uD83D\uDC81", false),
-    CHECK_MARK(CommandType.BAN, ":white_check_mark:", "✅", false);
+    CHECK_MARK(CommandType.BAN, ":white_check_mark:", "✅", false),
+    ONLINE(null, "<:online2:563527569652318218>", "", true),
+    OFFLINE(null, "<:offline:563527847885406210>", "", true),
+    ABSENT(null, "<:ausenteBRR:563527782232227851>", "", true),
+    BUSY(null, "<:dnd:563527370334666768>", "", true);
 
     private CommandType type;
     private String reaction;

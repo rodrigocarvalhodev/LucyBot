@@ -4,9 +4,11 @@ import lombok.var;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.rodrigocarvalho.lucy.command.Command;
+import net.rodrigocarvalho.lucy.command.model.AbstractCommand;
 import net.rodrigocarvalho.lucy.event.EventAdapter;
 import net.rodrigocarvalho.lucy.mysql.MySQL;
 import net.rodrigocarvalho.lucy.task.PresenceTask;
+import net.rodrigocarvalho.lucy.utils.BotUtils;
 import net.rodrigocarvalho.lucy.utils.FileUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,6 +23,7 @@ public class Lucy {
     private static JDA jda;
     private final String CONFIG_NAME;
     private static final Logger LOGGER = LoggerFactory.getLogger("Main");
+    private static Command command;
 
     private MySQL mySQL;
 
@@ -41,16 +44,20 @@ public class Lucy {
             var mysqlJson = (JSONObject) json.get("mysql");
             startMySQL(mysqlJson);
             startTasks();
+            BotUtils.setStartTime(System.currentTimeMillis());
+            BotUtils.registerLocalCommands();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void startBot(String token) {
+        command = new Command();
         try {
             jda = new JDABuilder(token).setAutoReconnect(true).build();
             jda.awaitReady();
-            jda.addEventListener(new Command());
+            AbstractCommand.setJda(jda);
+            jda.addEventListener(command);
             jda.addEventListener(new EventAdapter());
         } catch (Exception e) {
             print("Não foi possível iniciar o bot: " + e.getMessage());
@@ -89,5 +96,9 @@ public class Lucy {
 
     public static void print(String message) {
         System.out.println("[Lucy] - " + message);
+    }
+
+    public static Command getCommand() {
+        return command;
     }
 }

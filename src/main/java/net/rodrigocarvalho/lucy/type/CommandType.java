@@ -150,6 +150,28 @@ public enum CommandType {
         public boolean validArguments(int length) {
             return length > 0;
         }
+    },
+    LOAD_COMMAND {
+        @Override
+        public Message getHelp(User user) {
+            return new MessageBuilder(user.getAsMention() + ", Utilize: `.loadcommand <path> <classenome>`").build();
+        }
+
+        @Override
+        public boolean validArguments(int length) {
+            return length > 1;
+        }
+    },
+    UNLOAD_COMMAND {
+        @Override
+        public Message getHelp(User user) {
+            return new MessageBuilder(user.getAsMention() + ", Utilize: `.unloadcommand <nome>`").build();
+        }
+
+        @Override
+        public boolean validArguments(int length) {
+            return length > 0;
+        }
     };
 
     public abstract Message getHelp(User user);
