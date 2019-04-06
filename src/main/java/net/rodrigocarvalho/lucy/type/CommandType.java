@@ -90,7 +90,7 @@ public enum CommandType {
                                 .setColor(Color.lightGray)
                                 .setDescription(":interrobang: Como usar\n\n" +
                                         ".ban " + selfUser.getAsMention() + "\n" +
-                                        ".ban " + selfUser.getAsMention() + " Opressor!")
+                                        ".ban " + selfUser.getAsMention() + " Fascista!")
                                 .addField(":wrench: | Alternativas",
                                             ".ban\n.banir", true)
                                 .addField(":eyes: | Objetivo", "Banir um usuário faxista.", true)
@@ -114,7 +114,7 @@ public enum CommandType {
                                     .setColor(Color.lightGray)
                                     .setDescription(":interrobang: Como usar\n\n" +
                                             ".kick " + selfUser.getAsMention() + "\n" +
-                                            ".kick " + selfUser.getAsMention() + " Opressor!")
+                                            ".kick " + selfUser.getAsMention() + " Fascista!")
                                     .addField(":wrench: | Alternativas",
                                             ".kick\n.expulsar", true)
                                     .addField(":eyes: | Objetivo", "Expulsar um usuário faxista.", true)
