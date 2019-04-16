@@ -9,10 +9,13 @@ import net.rodrigocarvalho.lucy.dao.UserDao;
 import net.rodrigocarvalho.lucy.factory.UserData;
 import net.rodrigocarvalho.lucy.type.CommandType;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
 import java.util.Arrays;
 import java.util.StringJoiner;
 import java.util.regex.Pattern;
@@ -20,6 +23,7 @@ import java.util.regex.Pattern;
 public class ObjectUtils {
 
     private static final Pattern PATTERN_ID = Pattern.compile("\\d+");
+    private static final MemoryMXBean MEMORY_MX_BEAN = ManagementFactory.getMemoryMXBean();
 
     public static boolean asArguments(CommandType type, User user, MessageChannel channel, String[] args) {
         if (type.validArguments(args.length)) return true;
@@ -87,5 +91,28 @@ public class ObjectUtils {
             e.printStackTrace();
         }
         return joiner.toString();
+    }
+
+    public static long getMemoryUsage() {
+        long memoryUsage = MEMORY_MX_BEAN.getHeapMemoryUsage().getUsed();
+        return memoryUsage / (1024 * 1024);
+    }
+
+    public static int getPendingFinalization() {
+        return MEMORY_MX_BEAN.getObjectPendingFinalizationCount();
+    }
+
+    public static BufferedImage writeText(File file, String text, int weight, int height) {
+        try {
+            BufferedImage image = ImageIO.read(file);
+            Graphics2D graphics = image.createGraphics();
+
+            graphics.drawString(text, weight, height);
+            ImageIO.write(image, "jpg", file);
+            return image;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

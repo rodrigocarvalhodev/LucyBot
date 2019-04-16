@@ -30,14 +30,14 @@ public class UserInfoCommand extends AbstractCommand {
         var targetMember = guild.getMember(target);
         var game = targetMember != null && targetMember.getActivities().size() > 0 ? targetMember.getActivities().get(0).getName() : "Desconhecido";
         var status = targetMember != null ? OnlineType.getByOnlineStatus(targetMember.getOnlineStatus()) : OnlineType.OFFLINE;
-        var created = TimeUtils.format(new Date(TimeUtils.getTime(user.getTimeCreated())));
+        var created = TimeUtils.format(new Date(TimeUtils.getTime(target.getTimeCreated())));
         var joined = targetMember != null ? TimeUtils.format(new Date(TimeUtils.getTime(targetMember.getTimeJoined()))) : null;
 
         var createdFormat = ":sunny: Criação: " + created;
         var joinedFormat = ":atom: Entrou aqui em: " + joined;
         event.sendMessage(new EmbedBuilder()
                 .setTitle(":bust_in_silhouette: Informações de " + target.getName())
-                .addField(":desktop: Tag no Discord", user.getAsTag(), true)
+                .addField(":desktop: Tag no Discord", target.getAsTag(), true)
                 .addField(":desktop: ID do Discord", target.getId(), true)
                 .addField(":video_game: Jogando", game, true)
                 .addField("<a:typingstatus:563527924603682824> Status", status.getName() + " " + status.getType().getReaction(), true)

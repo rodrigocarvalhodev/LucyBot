@@ -19,6 +19,7 @@ public class BotInfoCommand extends AbstractCommand {
                     .addField("<a:bounce:563789332515913737> Usuários", String.valueOf(jda.getUsers().size()), true)
                     .addField(":crown: Criador", "Rodrigo Carvalho", true)
                     .addField("<:uptime:563790462964596762> Uptime", BotUtils.getTime(), true)
+
                     .setFooter(user.getName(), user.getAvatarUrl())
                 .build()
         );
