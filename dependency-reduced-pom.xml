@@ -35,7 +35,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>net.rodrigocarvalho.lucy.Main</mainClass>
+                  <mainClass>com.duckdeveloper.lucy.LucyBotApplication</mainClass>
                 </transformer>
               </transformers>
             </configuration>
