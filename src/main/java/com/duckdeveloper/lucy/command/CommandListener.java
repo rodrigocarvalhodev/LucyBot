@@ -10,7 +10,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -43,7 +42,7 @@ public class CommandListener extends ListenerAdapter {
         var commandHandler = abstractCommand.getClass().getAnnotation(CommandHandler.class);
 
         if (commandHandler.rootCommand() && !BotUtils.isRootUser(user)) {
-            event.reply("Somente pessoas especiais podem usar esse comando <:tux:563133833155969034>.").queue();
+            event.reply("Somente pessoas especiais podem usar esse comando <:mytime:759000043582652456>.").queue();
             return false;
         }
 

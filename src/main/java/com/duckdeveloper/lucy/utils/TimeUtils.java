@@ -1,17 +1,25 @@
 package com.duckdeveloper.lucy.utils;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class TimeUtils {
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("d 'de' MMMM y 'às' HH:mm:ss");
 
     public static String format(Date date) {
         return DATE_FORMAT.format(date);
+    }
+
+    public static String format(LocalDateTime localDateTime) {
+        return localDateTime.format(DATE_TIME_FORMAT);
     }
 
     public static long getTime(OffsetDateTime offset) {
@@ -44,5 +52,9 @@ public class TimeUtils {
         var seconds = (int) (TimeUnit.MILLISECONDS.toSeconds(millis)
                 - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
         return new int[]{days, hours, minutes, seconds};
+    }
+
+    public static DateTimeFormatter getDateTimeFormat() {
+        return DATE_TIME_FORMAT;
     }
 }

@@ -2,37 +2,47 @@ package com.duckdeveloper.lucy.command.root;
 
 import com.duckdeveloper.lucy.command.model.AbstractCommand;
 import com.duckdeveloper.lucy.command.model.CommandHandler;
-import com.duckdeveloper.lucy.utils.SystemUtils;
+import com.duckdeveloper.lucy.service.BashService;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @Component
 @CommandHandler(name = "eval", rootCommand = true)
 public class EvalCommand extends AbstractCommand {
 
+    private final BashService bashService;
+
+    @Lazy
+    public EvalCommand(BashService bashService) {
+        this.bashService = bashService;
+    }
+
     @Override
     public void execute(SlashCommandInteractionEvent event) {
+        event.deferReply().queue();
         var user = event.getUser();
+        var eventHook = event.getHook();
         var code = event.getOption("code").getAsString();
         try {
             long millis = System.currentTimeMillis();
-            var result = SystemUtils.eval(code, user, event.getMessageChannel(), event.getGuild());
+            var result = this.bashService.eval(code, user, event.getMessageChannel(), event.getGuild());
             long executionTimeInMilliseconds = System.currentTimeMillis() - millis;
 
             if (result.size() > 1) {
-                event.reply("Oxi, que mensagem gigante ein? <:thinkrage:563142958938062849> Irei corta-la.").queue();
+                eventHook.sendMessage("Oxi, que mensagem gigante ein? <:thinkrage:563142958938062849> Irei corta-la.").queue();
             }
 
             var page = 0;
             for (var content : result) {
                 page++;
-                event.replyEmbeds(
+                eventHook.sendMessageEmbeds(
                         new EmbedBuilder()
-                                .setTitle("Terminamos.")
+                                .setTitle("Finalizado.")
                                 .addField("Resultado", content, false)
                                 .addField("Tempo de execução", String.valueOf(executionTimeInMilliseconds), false)
                                 .setFooter("Página %d".formatted(page), user.getAvatarUrl())

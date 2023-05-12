@@ -2,7 +2,7 @@ spring:
   application:
     name: lucy-bot
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/lucy
     username: postgres
     password: masterkey
@@ -22,6 +22,14 @@ spring:
     locations:
       classpath:db/migration
     schemas: lucy
+  cloud:
+    openfeign:
+      client:
+        config:
+          stock-exchange:
+            url: https://brapi.dev/api
+            error-decoder: com.duckdeveloper.lucy.configuration.feign.FeignErrorDecoder
+
 
 lucy:
   token: tokenaqui
