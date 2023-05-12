@@ -18,7 +18,7 @@ Para usar o Lucy, adicione-o ao seu servidor do Discord clicando no seguinte lin
 
 ### Busca de bolsa de valores
 
-- `/bolsa {símbolo}`: exibe informações sobre uma determinada ação com base em seu símbolo. Por exemplo, `!bolsa MELI34` exibe informações sobre as ações do Mercado Livre.
+- `/bolsa {símbolo}`: exibe informações sobre uma determinada ação com base em seu símbolo. Por exemplo, `/bolsa MELI34` exibe informações sobre as ações do Mercado Livre.
 
 ### Comandos divertidos
 
