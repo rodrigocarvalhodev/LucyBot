@@ -4,7 +4,7 @@ Lucy é um bot do Discord que oferece recursos de conversão de moedas, busca de
 
 ## Como usar
 
-Para usar o Lucy, adicione-o ao seu servidor do Discord clicando no seguinte link: [Adicionar Lucy ao seu servidor](https://discord.com/oauth2/authorize?client_id=INSERIR_ID_AQUI&scope=bot&permissions=1946446976)
+Para usar o Lucy, adicione-o ao seu servidor do Discord clicando no seguinte link: [Adicionar Lucy ao seu servidor](https://discord.com/oauth2/authorize?client_id=514197418342875146&scope=bot&permissions=8)
 
 ## Comandos
 
