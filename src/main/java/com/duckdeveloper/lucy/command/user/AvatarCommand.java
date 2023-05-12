@@ -24,7 +24,7 @@ public class AvatarCommand extends AbstractCommand {
                 new EmbedBuilder()
                     .setTitle("Avatar de %s".formatted(targetUser.getName()))
                     .setImage(targetUser.getAvatarUrl().concat("?size=2048"))
-                    .setFooter("Comando executado por " + user.getName(), user.getAvatarUrl())
+                    .setFooter(user.getName(), user.getAvatarUrl())
                 .build()
         ).queue();
     }

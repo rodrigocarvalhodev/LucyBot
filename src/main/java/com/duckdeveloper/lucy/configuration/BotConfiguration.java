@@ -5,12 +5,14 @@ import com.duckdeveloper.lucy.command.model.AbstractCommand;
 import com.duckdeveloper.lucy.event.EventAdapter;
 import com.duckdeveloper.lucy.model.properties.BotProperties;
 import com.duckdeveloper.lucy.utils.BotUtils;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.awt.*;
 import java.util.List;
 
 @Configuration
@@ -38,6 +40,18 @@ public class BotConfiguration {
 
         this.commands.forEach(command -> this.jda.upsertCommand(command.getCommandSlash()).queue());
         BotUtils.setStartTime(System.currentTimeMillis());
+        System.setProperty("file.encoding", "UTF-8");
         return this.jda;
     }
+
+    @Bean
+    public Runtime getRuntime() {
+        return Runtime.getRuntime();
+    }
+
+//    @PostConstruct
+//    @Bean
+//    public Color defaultColor() {
+//        return Color.decode("#e5e4b8");
+//    }
 }
