@@ -19,8 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-@Component
-@CommandHandler(name = "moeda")
+//@Component
+//@CommandHandler(name = "moeda")
 @RequiredArgsConstructor
 public class CurrencyCommmand extends AbstractCommand {
 

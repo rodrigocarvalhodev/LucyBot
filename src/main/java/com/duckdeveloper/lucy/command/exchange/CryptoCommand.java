@@ -3,6 +3,7 @@ package com.duckdeveloper.lucy.command.exchange;
 import com.duckdeveloper.lucy.command.model.AbstractCommand;
 import com.duckdeveloper.lucy.command.model.CommandHandler;
 import com.duckdeveloper.lucy.exception.CryptoNotFoundException;
+import com.duckdeveloper.lucy.factory.EmbedBuilderFactory;
 import com.duckdeveloper.lucy.model.crypto.Crypto;
 import com.duckdeveloper.lucy.service.StockExchangeService;
 import com.duckdeveloper.lucy.type.CurrencyType;
@@ -19,8 +20,8 @@ import java.awt.*;
 import java.util.List;
 import java.util.Optional;
 
-@Component
-@CommandHandler(name = "crypto")
+//@Component
+//@CommandHandler(name = "crypto")
 public class CryptoCommand extends AbstractCommand {
 
     private final StockExchangeService stockExchangeService;
@@ -51,15 +52,10 @@ public class CryptoCommand extends AbstractCommand {
 
         var crypto = cryptoOptional.get();
 
-        event.replyEmbeds(new EmbedBuilder()
-                .setTitle(":bar_chart: Resultados para a criptomoeda **%s**".formatted(symbol))
-                .setThumbnail(crypto.getCoinImageUrl())
-                .addField(":identification_card: Nome", crypto.getCoinName(), true)
-                .addField(":moneybag: Valor atual", NumberFormatter.format(CurrencyType.BRL, crypto.getRegularMarketPrice()), true)
-                .setFooter(user.getName(), user.getAvatarUrl())
-                .setColor(Color.decode("#e5e4b8"))
-                .build()
-        ).queue();
+        var messageEmbed = EmbedBuilderFactory.cryptoCommandWithSymbolAndCryptoAndUser(symbol, crypto, user);
+
+        event.replyEmbeds(messageEmbed)
+                .queue();
     }
 
     @Override

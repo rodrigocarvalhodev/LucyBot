@@ -26,10 +26,19 @@ spring:
     openfeign:
       client:
         config:
-          stock-exchange:
-            url: https://brapi.dev/api
+          coinmarket-cap:
+            url: https://pro-api.coinmarketcap.com/
             error-decoder: com.duckdeveloper.lucy.configuration.feign.FeignErrorDecoder
+            default-request-headers:
+              X-CMC_PRO_API_KEY:
+          stock-exchange:
+            url: https://www.alphavantage.co
+            error-decoder: com.duckdeveloper.lucy.configuration.feign.FeignErrorDecoder
+            request-interceptors:
+              - com.duckdeveloper.lucy.configuration.feign.StockExchangeRequestInterceptor
+            default-query-parameters:
+              - apikey: HGKB90NBQ062BR2X
 
 
 lucy:
-  token: tokenaqui
+  token: ${TOKEN}

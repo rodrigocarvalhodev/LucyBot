@@ -51,7 +51,7 @@ public class EvalCommand extends AbstractCommand {
             }
         } catch (Exception e) {
             StackTraceElement element = e.getStackTrace()[0];
-            event.replyEmbeds(
+            eventHook.sendMessageEmbeds(
                     new EmbedBuilder()
                             .setTitle("Opa! parece que algo deu errado <:desesperado:563147487691407375>")
                             .addField("Erro", e.getMessage(), false)

@@ -1,5 +1,6 @@
 package com.duckdeveloper.lucy.configuration;
 
+import com.barchart.ondemand.BarchartOnDemandClient;
 import com.duckdeveloper.lucy.command.CommandListener;
 import com.duckdeveloper.lucy.command.model.AbstractCommand;
 import com.duckdeveloper.lucy.event.EventAdapter;
@@ -47,6 +48,13 @@ public class BotConfiguration {
     @Bean
     public Runtime getRuntime() {
         return Runtime.getRuntime();
+    }
+
+    @Bean
+    public BarchartOnDemandClient barchartOnDemandClient() {
+        return new BarchartOnDemandClient.Builder()
+                .apiKey("CHANGE-ME")
+                .build();
     }
 
 //    @PostConstruct
