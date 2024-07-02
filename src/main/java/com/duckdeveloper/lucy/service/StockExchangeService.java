@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@Service
-@FeignClient("stock-exchange")
+//@Service
+//@FeignClient("stock-exchange")
 public interface StockExchangeService {
 
     @GetMapping(value = "query?function=GLOBAL_QUOTE&symbol={tickers}", produces = "application/json")
