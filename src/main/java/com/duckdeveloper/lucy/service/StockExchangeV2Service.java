@@ -2,10 +2,9 @@ package com.duckdeveloper.lucy.service;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @Service
-@FeignClient(name = "")
+@FeignClient(name = "coinmarket-cap")
 public interface StockExchangeV2Service {
 
 }
