@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
-@FeignClient(name = "stock-exchange")
+@FeignClient("stock-exchange")
 public interface StockExchangeService {
 
     @GetMapping(value = "query?function=GLOBAL_QUOTE&symbol={tickers}", produces = "application/json")
