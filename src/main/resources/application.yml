@@ -29,8 +29,5 @@ spring:
           stock-exchange:
             url: https://www.alphavantage.co
             error-decoder: com.duckdeveloper.lucy.configuration.feign.FeignErrorDecoder
-            request-interceptors:
-              - com.duckdeveloper.lucy.configuration.feign.StockExchangeRequestInterceptor
-
 lucy:
   token: ${TOKEN}
